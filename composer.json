@@ -1,0 +1,62 @@
+{
+    "name": "jack-worman/composer-check-updates",
+    "description": "npm-check-updates for Composer: upgrades composer.json constraints to the latest versions, honouring your cooldown policy",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "composer",
+        "dependencies",
+        "upgrade",
+        "outdated",
+        "npm-check-updates",
+        "ncu",
+        "tui"
+    ],
+    "authors": [
+        {
+            "name": "Jack Worman"
+        }
+    ],
+    "require": {
+        "php": ">=8.4.1",
+        "composer/composer": "^2.11",
+        "composer/semver": "^3.4",
+        "symfony/console": "^8.1",
+        "symfony/process": "^8.1",
+        "symfony/tui": "8.1.*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpunit/phpunit": "^12.4",
+        "revolt/event-loop": "^1.0.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "JackWorman\\ComposerCheckUpdates\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JackWorman\\ComposerCheckUpdates\\Tests\\": "tests/"
+        }
+    },
+    "bin": [
+        "bin/ccu"
+    ],
+    "config": {
+        "policy": {
+            "cooldown": {
+                "period": "7 days"
+            }
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "cs": "php-cs-fixer fix",
+        "phpstan": "phpstan analyse",
+        "test": "phpunit"
+    }
+}

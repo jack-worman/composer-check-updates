@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Composer\InstalledVersions;
+use JackWorman\ComposerCheckUpdates\Command\CheckUpdatesCommand;
+use Symfony\Component\Console\Application;
+
+require $_composer_autoload_path ?? __DIR__.'/../vendor/autoload.php';
+
+// Composer's own binary raises the limit the same way, as loading package metadata can need more than the default.
+$memoryLimit = trim(ini_get('memory_limit'));
+if ('-1' !== $memoryLimit && (int) $memoryLimit * match (strtolower(substr($memoryLimit, -1))) {
+    'g' => 1024 ** 3, 'm' => 1024 ** 2, 'k' => 1024, default => 1
+} < 1536 * 1024 ** 2) {
+    ini_set('memory_limit', '1536M');
+}
+
+$command = new CheckUpdatesCommand();
+$application = new Application('composer-check-updates', InstalledVersions::getPrettyVersion('jack-worman/composer-check-updates') ?? 'dev');
+$application->addCommand($command);
+$application->setDefaultCommand(CheckUpdatesCommand::NAME, true);
+$application->run();
